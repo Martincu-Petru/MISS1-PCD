@@ -29,7 +29,7 @@ namespace client
                     tcpClient.Connect(server, dataLocation, port);
                     break;
                 case 1:
-                    var udpClient = new TcpClientConnector();
+                    var udpClient = new UdpClientConnector();
                     udpClient.Connect(server, dataLocation, port);
                     break;
                 default:
