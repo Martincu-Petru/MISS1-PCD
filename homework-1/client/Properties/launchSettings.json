@@ -2,7 +2,7 @@
   "profiles": {
     "client": {
       "commandName": "Project",
-      "commandLineArgs": "127.0.0.1 4200 0 C:\\Users\\Petru\\Desktop\\MISS1-PCD\\homework-1\\client\\data.txt"
+      "commandLineArgs": "127.0.0.1 4200 1 C:\\Users\\Petru\\Desktop\\MISS1-PCD\\homework-1\\client\\data.txt"
     }
   }
 }
