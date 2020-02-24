@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Text;
 
@@ -7,18 +6,18 @@ namespace server
 {
     internal static class TcpServerConnector
     {
-        private static void Process(object arg)
+        public static void Process(object arg)
         {
             Console.WriteLine("TCP server thread started");
 
             try
             {
-                var server = (TcpListener)arg;
+                var server = (TcpListener) arg;
                 var buffer = new byte[65535];
 
                 server.Start();
 
-                for (; ; )
+                for (;;)
                 {
                     var client = server.AcceptTcpClient();
 
@@ -26,19 +25,15 @@ namespace server
                     {
                         int count;
                         while ((count = stream.Read(buffer, 0, buffer.Length)) != 0)
-                        {
                             Console.WriteLine("TCP: " + Encoding.ASCII.GetString(buffer, 0, count));
-                        }
                     }
+
                     client.Close();
                 }
             }
             catch (SocketException ex)
             {
-                if (ex.ErrorCode != 10004)
-                {
-                    Console.WriteLine("TCPServerProc exception: " + ex);
-                }
+                if (ex.ErrorCode != 10004) Console.WriteLine("TCPServerProc exception: " + ex);
             }
             catch (Exception ex)
             {
