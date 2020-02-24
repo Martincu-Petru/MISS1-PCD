@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -12,6 +13,10 @@ namespace server
         {
             Console.WriteLine("UDP server thread started");
 
+            var timer = new Stopwatch();
+            var numberOfMessages = 0;
+            ulong numberOfBytes = 0;
+
             try
             {
                 var server = (UdpClient)arg;
@@ -19,12 +24,17 @@ namespace server
                 for (; ; )
                 {
                     IPEndPoint remoteEndpoint = null;
+                    timer.Start();
                     var buffer = server.Receive(ref remoteEndpoint);
+                    timer.Stop();
 
-                    if (buffer.Length > 0)
-                    {
-                        Console.WriteLine("UDP: " + Encoding.ASCII.GetString(buffer));
-                    }
+                    numberOfMessages++;
+                    numberOfBytes += ulong.Parse(buffer.Length.ToString());
+
+                    Console.WriteLine("Elapsed time: {0}", timer.Elapsed.ToString());
+                    Console.WriteLine("Number of messages: {0}", numberOfMessages);
+                    Console.WriteLine("Number of bytes: {0}", numberOfBytes);
+                    Console.WriteLine("Protocol: UDP");
                 }
             }
             catch (SocketException ex)
@@ -36,6 +46,11 @@ namespace server
             {
                 Console.WriteLine("UDPServerProc exception: " + ex);
             }
+
+            Console.WriteLine("Elapsed time: {0}", timer.Elapsed.ToString());
+            Console.WriteLine("Number of messages: {0}", numberOfMessages);
+            Console.WriteLine("Number of bytes: {0}", numberOfBytes);
+            Console.WriteLine("Protocol: UDP");
 
             Console.WriteLine("UDP server thread finished");
         }
