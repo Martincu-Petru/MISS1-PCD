@@ -36,20 +36,22 @@ namespace client
 
                         // Read data from file
                         objStream.Read(arrData, 0, arrData.Length);
-                        numberOfMessages++;
-                        numberOfBytes += ulong.Parse(arrData.Length.ToString());
 
                         timer.Start();
                         client.Send(arrData, arrData.Length);
                         timer.Stop();
+
+                        numberOfMessages++;
+                        numberOfBytes += ulong.Parse(arrData.Length.ToString());
                     }
                 }
+                timer.Start();
+                client.Close();
+                timer.Stop();
 
                 Console.WriteLine("Elapsed time: {0}", timer.Elapsed.ToString());
                 Console.WriteLine("Number of messages: {0}", numberOfMessages);
                 Console.WriteLine("Number of bytes: {0}", numberOfBytes);
-
-                client.Close();
             }
             catch (Exception e)
             {
