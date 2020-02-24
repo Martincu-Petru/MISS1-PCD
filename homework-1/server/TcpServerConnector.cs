@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 
 namespace server
 {
@@ -13,34 +15,51 @@ namespace server
             try
             {
                 var server = (TcpListener) arg;
-                var buffer = new byte[65535];
-
                 server.Start();
 
-                for (;;)
+                while(true)
                 {
                     var client = server.AcceptTcpClient();
 
-                    using (var stream = client.GetStream())
-                    {
-                        int count;
-                        while ((count = stream.Read(buffer, 0, buffer.Length)) != 0)
-                            Console.WriteLine("TCP: " + Encoding.ASCII.GetString(buffer, 0, count));
-                    }
-
-                    client.Close();
+                    var t = new Thread(HandleClient);
+                    t.Start(client);
                 }
-            }
-            catch (SocketException ex)
-            {
-                if (ex.ErrorCode != 10004) Console.WriteLine("TCPServerProc exception: " + ex);
             }
             catch (Exception ex)
             {
-                Console.WriteLine("TCPServerProc exception: " + ex);
+                Console.WriteLine("Exception: " + ex);
             }
+        }
 
-            Console.WriteLine("TCP server thread finished");
+        public static void HandleClient(object obj)
+        {
+            var client = (TcpClient) obj;
+            var numberOfMessages = 0;
+            ulong numberOfBytes = 0;
+            var buffer = new byte[65535];
+            var timer = new Stopwatch();
+
+            using (var stream = client.GetStream())
+            {
+                timer.Start();
+                var count = stream.Read(buffer, 0, buffer.Length);
+                timer.Stop();
+
+                while (count != 0)
+                {
+                    numberOfMessages++;
+                    numberOfBytes += ulong.Parse(count.ToString());
+                    timer.Start();
+                    count = stream.Read(buffer, 0, buffer.Length);
+                    timer.Stop();
+                }
+            }
+            client.Close();
+
+            Console.WriteLine("Elapsed time: {0}", timer.Elapsed.ToString());
+            Console.WriteLine("Number of messages: {0}", numberOfMessages);
+            Console.WriteLine("Number of bytes: {0}", numberOfBytes);
+            Console.WriteLine("Protocol: TCP");
         }
     }
 }
