@@ -20,9 +20,7 @@ namespace client
                 var numberOfMessages = 0;
                 ulong numberOfBytes = 0;
 
-                timer.Start();
                 client.Connect(endPoint);
-                timer.Stop();
 
                 using (Stream objStream = File.OpenRead(dataLocation))
                 {
@@ -36,7 +34,6 @@ namespace client
 
                         // Read data from file
                         objStream.Read(arrData, 0, arrData.Length);
-
                         timer.Start();
                         client.Send(arrData, arrData.Length);
                         timer.Stop();
@@ -45,9 +42,7 @@ namespace client
                         numberOfBytes += ulong.Parse(arrData.Length.ToString());
                     }
                 }
-                timer.Start();
                 client.Close();
-                timer.Stop();
 
                 Console.WriteLine("Elapsed time: {0}", timer.Elapsed.ToString());
                 Console.WriteLine("Number of messages: {0}", numberOfMessages);
