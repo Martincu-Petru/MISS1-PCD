@@ -1,12 +1,41 @@
 ﻿using System;
+using System.Net.Sockets;
+using System.Threading;
 
 namespace client
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+
+            var argumentsParser = new ArgumentsParser(args);
+
+            if (argumentsParser.CheckArgumentsLength() == false)
+            {
+                Console.WriteLine("Invalid parameters.");
+                return;
+            }
+
+            var server = argumentsParser.GetServerAddress();
+            var dataLocation = argumentsParser.GetDataLocation();
+            var port = argumentsParser.GetPort();
+            var protocol = argumentsParser.GetProtocol();
+
+            switch (protocol)
+            {
+                case 0:
+                    var tcpClient = new TcpClientConnector();
+                    tcpClient.Connect(server, dataLocation, port);
+                    break;
+                case 1:
+                    var udpClient = new TcpClientConnector();
+                    udpClient.Connect(server, dataLocation, port);
+                    break;
+                default:
+                    Console.WriteLine("Invalid parameters.");
+                    break;
+            }
         }
     }
 }
