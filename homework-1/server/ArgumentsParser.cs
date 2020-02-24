@@ -16,12 +16,12 @@ namespace server
 
         public int GetPort()
         {
-            return int.Parse(_arguments[1]);
+            return int.Parse(_arguments[0]);
         }
 
         public bool CheckArgumentsLength()
         {
-            return _arguments.Length == 4;
+            return _arguments.Length == 1;
         }
     }
 }

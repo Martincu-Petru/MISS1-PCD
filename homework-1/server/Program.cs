@@ -5,9 +5,9 @@ using System.Threading;
 
 namespace server
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             var argumentsParser = new ArgumentsParser(args);
 
@@ -19,21 +19,23 @@ namespace server
 
             var port = argumentsParser.GetPort();
 
-            Console.WriteLine(string.Format("Starting TCP and UDP servers on port {0}...", port));
+            Console.WriteLine($"Starting TCP and UDP servers on port {port}...");
 
             try
             {
                 var udpServer = new UdpClient(port);
                 var tcpServer = new TcpListener(IPAddress.Any, port);
 
-                var udpThread = new Thread(new ParameterizedThreadStart(UdpServerConnector.Process));
-                udpThread.IsBackground = true;
-                udpThread.Name = "UDP server thread";
+                var udpThread = new Thread(UdpServerConnector.Process)
+                {
+                    IsBackground = true, Name = "UDP server thread"
+                };
                 udpThread.Start(udpServer);
 
-                var tcpThread = new Thread(new ParameterizedThreadStart(TcpServerConnector.Process));
-                tcpThread.IsBackground = true;
-                tcpThread.Name = "TCP server thread";
+                var tcpThread = new Thread(TcpServerConnector.Process)
+                {
+                    IsBackground = true, Name = "TCP server thread"
+                };
                 tcpThread.Start(tcpServer);
 
                 Console.WriteLine("Press <ENTER> to stop the servers.");
