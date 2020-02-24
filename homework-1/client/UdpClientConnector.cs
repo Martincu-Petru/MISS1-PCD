@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
@@ -15,12 +16,18 @@ namespace client
             {
                 var client = new UdpClient();
                 var endPoint = new IPEndPoint(IPAddress.Parse(server), port);
+                var timer = new Stopwatch();
+                var numberOfMessages = 0;
+                ulong numberOfBytes = 0;
 
+                timer.Start();
                 client.Connect(endPoint);
+                timer.Stop();
 
                 using (Stream objStream = File.OpenRead(dataLocation))
                 {
                     // Read data from file until read position is not equals to length of file
+                    
                     while (objStream.Position != objStream.Length)
                     {
                         // Read number of remaining bytes to read
@@ -29,11 +36,18 @@ namespace client
 
                         // Read data from file
                         objStream.Read(arrData, 0, arrData.Length);
-                        client.Send(arrData, arrData.Length);
+                        numberOfMessages++;
+                        numberOfBytes += ulong.Parse(arrData.Length.ToString());
 
-                        Console.WriteLine("Sent: {0}", arrData);
+                        timer.Start();
+                        client.Send(arrData, arrData.Length);
+                        timer.Stop();
                     }
                 }
+
+                Console.WriteLine("Elapsed time: {0}", timer.Elapsed.ToString());
+                Console.WriteLine("Number of messages: {0}", numberOfMessages);
+                Console.WriteLine("Number of bytes: {0}", numberOfBytes);
 
                 client.Close();
             }
