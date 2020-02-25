@@ -13,15 +13,19 @@ namespace server
             _arguments = arguments;
         }
 
-
         public int GetPort()
         {
             return int.Parse(_arguments[0]);
         }
 
+        public bool IsStopAndWait()
+        {
+            return bool.Parse(_arguments[1]);
+        }
+
         public bool CheckArgumentsLength()
         {
-            return _arguments.Length == 1;
+            return _arguments.Length == 2;
         }
     }
 }

@@ -21,16 +21,17 @@ namespace client
             var dataLocation = argumentsParser.GetDataLocation();
             var port = argumentsParser.GetPort();
             var protocol = argumentsParser.GetProtocol();
+            var isStopAndWait = argumentsParser.IsStopAndWait();
 
             switch (protocol)
             {
                 case 0:
                     var tcpClient = new TcpClientConnector();
-                    tcpClient.Connect(server, dataLocation, port);
+                    tcpClient.Connect(server, dataLocation, port, isStopAndWait);
                     break;
                 case 1:
                     var udpClient = new UdpClientConnector();
-                    udpClient.Connect(server, dataLocation, port);
+                    udpClient.Connect(server, dataLocation, port, isStopAndWait);
                     break;
                 default:
                     Console.WriteLine("Invalid parameters.");

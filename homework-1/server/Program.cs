@@ -18,6 +18,7 @@ namespace server
             }
 
             var port = argumentsParser.GetPort();
+            var isStopAndWait = argumentsParser.IsStopAndWait();
 
             Console.WriteLine($"Starting TCP and UDP servers on port {port}...");
 
@@ -26,20 +27,23 @@ namespace server
                 var udpServer = new UdpClient(port);
                 var tcpServer = new TcpListener(IPAddress.Any, port);
 
-                var udpThread = new Thread(UdpServerConnector.Process)
+                var udpThread = new Thread(() => UdpServerConnector.Process(udpServer, isStopAndWait))
                 {
                     IsBackground = true, Name = "UDP server thread"
                 };
-                udpThread.Start(udpServer);
+                udpThread.Start();
 
-                var tcpThread = new Thread(TcpServerConnector.Process)
+                var tcpThread = new Thread(() => TcpServerConnector.Process(tcpServer, isStopAndWait))
                 {
                     IsBackground = true, Name = "TCP server thread"
                 };
-                tcpThread.Start(tcpServer);
+                tcpThread.Start();
 
                 Console.WriteLine("Press <ENTER> to stop the servers.");
                 Console.ReadLine();
+
+                TcpServerConnector.CloseServer();
+                UdpServerConnector.CloseServer();
             }
             catch (Exception ex)
             {

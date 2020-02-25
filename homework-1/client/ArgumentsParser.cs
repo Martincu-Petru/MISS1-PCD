@@ -33,9 +33,14 @@ namespace client
             return _arguments[3];
         }
 
+        public bool IsStopAndWait()
+        {
+            return bool.Parse(_arguments[4]);
+        }
+
         public bool CheckArgumentsLength()
         {
-            return _arguments.Length == 4;
+            return _arguments.Length == 5;
         }
     }
 }

@@ -9,50 +9,63 @@ namespace server
 {
     internal static class UdpServerConnector
     {
-        public static void Process(object arg)
+        private static UdpClient Server { get; set; }
+        private static ulong _numberOfMessages = 0;
+        private static ulong _numberOfBytes = 0;
+        private static readonly Stopwatch Timer = new Stopwatch();
+        public static void Process(object arg, bool isStopAndWait)
         {
             Console.WriteLine("UDP server thread started");
 
-            var timer = new Stopwatch();
-            var numberOfMessages = 0;
-            ulong numberOfBytes = 0;
-
             try
             {
-                var server = (UdpClient)arg;
+                Server = (UdpClient)arg;
+                bool acknowledged = false;
+                IPEndPoint remoteEndpoint = null;
 
-                for (; ; )
+                while (true)
                 {
-                    IPEndPoint remoteEndpoint = null;
-                    timer.Start();
-                    var buffer = server.Receive(ref remoteEndpoint);
-                    timer.Stop();
+                    
+                    Timer.Start();
+                    var buffer = Server.Receive(ref remoteEndpoint);
+                    Timer.Stop();
 
-                    numberOfMessages++;
-                    numberOfBytes += ulong.Parse(buffer.Length.ToString());
+                    _numberOfMessages++;
+                    _numberOfBytes += ulong.Parse(buffer.Length.ToString());
 
-                    Console.WriteLine("Elapsed time: {0}", timer.Elapsed.ToString());
-                    Console.WriteLine("Number of messages: {0}", numberOfMessages);
-                    Console.WriteLine("Number of bytes: {0}", numberOfBytes);
-                    Console.WriteLine("Protocol: UDP");
+                    if(isStopAndWait) 
+                    { 
+
+                        while (!acknowledged)
+                        {
+                            Server.Send(Encoding.ASCII.GetBytes("ACK"), 3, remoteEndpoint);
+                            buffer = Server.Receive(ref remoteEndpoint);
+                            if (System.Text.Encoding.ASCII.GetString(buffer).Substring(0, 3).Equals("ACK"))
+                            {
+                                acknowledged = true;
+                            }
+                        }
+
+                        acknowledged = false;
+                    }
                 }
             }
-            catch (SocketException ex)
+            catch (Exception exception)
             {
-                if (ex.ErrorCode != 10004)
-                    Console.WriteLine("UDPServerProc exception: " + ex);
+                Console.WriteLine("UDP server exception: " + exception);
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine("UDPServerProc exception: " + ex);
-            }
+            Console.WriteLine("UDP server thread finished");
+        }
 
-            Console.WriteLine("Elapsed time: {0}", timer.Elapsed.ToString());
-            Console.WriteLine("Number of messages: {0}", numberOfMessages);
-            Console.WriteLine("Number of bytes: {0}", numberOfBytes);
+        public static void CloseServer()
+        {
+            Console.WriteLine();
+            Console.WriteLine("Elapsed time: {0}", Timer.Elapsed.ToString());
+            Console.WriteLine("Number of messages: {0}", _numberOfMessages);
+            Console.WriteLine("Number of bytes: {0}", _numberOfBytes);
             Console.WriteLine("Protocol: UDP");
 
-            Console.WriteLine("UDP server thread finished");
+            Server.Close();
         }
     }
 }

@@ -2,7 +2,7 @@
   "profiles": {
     "server": {
       "commandName": "Project",
-      "commandLineArgs": "4200"
+      "commandLineArgs": "4200 true"
     }
   }
 }
