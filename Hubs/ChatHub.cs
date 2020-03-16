@@ -1,16 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
+using Code;
+using Code.DataAccess;
 
 namespace light_chat_app.Hubs
 {
     public class ChatHub : Hub
     {
-        public async Task SendMessage(string user, string message)
+        private readonly TranslateService _translateService;
+
+        public ChatHub()
         {
-            await Clients.All.SendAsync("ReceiveMessage", user, message);
+            _translateService = new TranslateService();
+        }
+
+        public async Task SendMessage(string user, string originalMessage, string language)
+        {
+            //var message = _translateService.Translate(language, originalMessage);
+
+            await new MessageRepository().Add(new MessageModel { Message = originalMessage });
+
+            await Clients.All.SendAsync("ReceiveMessage", user, originalMessage);
         }
     }
 }

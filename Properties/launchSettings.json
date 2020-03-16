@@ -12,6 +12,7 @@
       "commandName": "IISExpress",
       "launchBrowser": true,
       "environmentVariables": {
+        "GOOGLE_APPLICATION_CREDENTIALS": "F:\\MASTER\\SEM2\\MISS1-PCD\\translation-key.json",
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },

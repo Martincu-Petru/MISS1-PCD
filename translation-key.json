@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "light-chat-app",
+  "private_key_id": "767f351beefd78a05d3cd6ca147ce6c63a2b1389",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCzlWrkVLTtVE3m\nxyY6gSK6idjqNGgzvhM9oxV+WkBKo+gWiwE16eEdQZa6muo0lcU1ylZBX8Hh22zL\nxgT4YV+fjuXDJZUqBGnsnZrp/mD2X+/Oi0an5qVnRj6gEfUD/+x0waGn3gQwJhbr\nVA1VQB7H71opkxBvI6Shf+6MnoIqYsgdpCgSqSV/P2ypGIFu2UlIrZJ+NGmY1GAv\nSpXhNd7lq+UgxN6pNwU+l3T1yLodG3ZF28dgTNnXyIY1wjPFx3X9Mou+gATa7GyK\nMG4TFtFdwiRgYY5nZAqmHb1gIJU6XYgNlJfvwm/nIx+NScV0lHmm5M08UqnKr677\ntAzNabr3AgMBAAECggEAPvVjRCluRMYJiZ7ICDq9sigho/o7jehVVoaWQnXhlEli\nVITnJ7+W7GrSLRmigkz/lpwZIVIw5r3GpqoFlA6PN6EhbAkBAnoJqKqYZPCJjdaU\nfBTX8IUr98joq7Wf8IcInuZDhlaPoVG5N0eAZSLVp8KCGZE1ccFNNlFjkGkBuVnR\n9oGqWVp+3NExpnR1lpLPhJwFDLQHfqLJvWrLPh6hpGk2DCEUu1GFfyk2h7DOeCU+\nbuGBEyBZoU+JUC3XrF1Rx4NLur/gnf5szZeZZo0MugjG3nrTfTtEodtsW0BXXVwh\nSOmftxSTIBKCT4cIZoT8JTQt28FgBDSVuqFhZpRYAQKBgQDXvQG5FFp8lEgvk5l8\nZ6enNgbg/2JxCwZ6A8k3WXlemBcKKREj9fHNr+nWqSlu/5JBsC+nD7XXfMHMK9lS\no34q/q0Bc8LWKuFT0PZSNEGM0vY2Sn1MnivJm537OdvfY8V2B9Drzq9WYvGReLcP\nzFoYiLXgg29INNA9nFVj0ReG8QKBgQDVGRtLCamqcNkgp0Fhm2xlMvfg0Z2wriKp\n6VDIUzbMkerYO+a0rdo+gJvn6n2H/ChUcxaOQfSjfu9uz4jhjhX4lAk/cGdOcaiR\n0LXAnYNnZ52RqMUJik2gRVQZ9rTQmtVpUfGSF+9U1FqH/xODO7Bdy6OozQql+ub/\ndwA4OnlwZwKBgQDQuS5nkAeTrCrCzPycXfTYU+8H1E27rL0RY4RTpp9EI8V2sRDC\nR/sv01hbtMI/f8hTAVC5QvvdhfhBvtK9nyw8ELX1R7hjWI00eGE4WxJoWtqW4C6l\n6AnZPlP0caAGWxL6BMneutLss0GgSrhh8oXgYrQEiWUq6N3oHc6Hig5HIQKBgEI8\nBYGzRSsW3EYL9oRyHKTvzJ/yR0MtPNT3EgbR5ox7JjWDmNe72cPnkY3qEo57z8U/\n6FjbI0DWKXGVzAPfd/DFgoJXW6TEKxL3fiaaTseLKyyk+mlWtX4FTnird9QG7CJK\nN/2itt71ChaPL+9wVAczTnEfGhow/C+XO1g+xJQtAoGBANJN3n9sFydvSfh0vXEe\nJ2FV64O8Mi7R8qxBeGTcHDeO5lae1/EKQoo5/vP50LWjyJiUZM2SVQFDNdXUyGNz\nb8noREsMPBWoxBfxyZIwOTqjKaEQ+hSH8VrGxu3e/8e7NSJ52v/5nAcvxiBA9UZb\n6Iy/gqinvp4DWUKFMSW8QtmY\n-----END PRIVATE KEY-----\n",
+  "client_email": "light-chat-app-translate@light-chat-app.iam.gserviceaccount.com",
+  "client_id": "116527263807364168186",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/light-chat-app-translate%40light-chat-app.iam.gserviceaccount.com"
+}

@@ -21,8 +21,10 @@ connection.start().then(function () {
 
 document.getElementById("sendButton").addEventListener("click", function (event) {
     var user = document.getElementById("userInput").value;
-    var message = document.getElementById("messageInput").value;
-    connection.invoke("SendMessage", user, message).catch(function (err) {
+    var originalMessage = document.getElementById("messageInput").value;
+    var browserLanguage = navigator.language;
+
+    connection.invoke("SendMessage", user, originalMessage, browserLanguage).catch(function (err) {
         return console.error(err.toString());
     });
     event.preventDefault();
