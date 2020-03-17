@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
 using Google.Cloud.Language.V1;
+using Code.DataAccess;
 
 namespace LightChatApp.Hubs
 {
@@ -19,6 +20,8 @@ namespace LightChatApp.Hubs
             });
             var sentiment = response.DocumentSentiment;
 
+            await new MessageRepository().Add(new MessageModel { Message = message });
+
             if (sentiment.Score >= 0.5 && sentiment.Magnitude >= 0.3)
             {
                 message += " 😍";
@@ -33,6 +36,13 @@ namespace LightChatApp.Hubs
             }
 
             await Clients.All.SendAsync("ReceiveMessage", user, message);
+        }
+
+        public async Task DisplayHistory()
+        {
+            var results = await new MessageRepository().GetAll();
+
+            await Clients.All.SendAsync("ReceiveHistory", results);
         }
     }
 }

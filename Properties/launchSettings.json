@@ -12,7 +12,7 @@
       "commandName": "IISExpress",
       "launchBrowser": true,
       "environmentVariables": {
-        "GOOGLE_APPLICATION_CREDENTIALS": "C:\\Users\\Petru\\Desktop\\natural-language.json",
+        "GOOGLE_APPLICATION_CREDENTIALS": "C:\\Users\\rares.mircea\\Desktop\\light-chat-app-13f2be00ca6e.json",
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },

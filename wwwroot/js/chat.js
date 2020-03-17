@@ -26,6 +26,14 @@ connection.on("ReceiveMessage", function (user, message) {
 
 });
 
+connection.on("ReceiveHistory", function (messages) {
+    messages.forEach(m => {
+        var div = document.createElement("div");
+        div.innerHTML = m.message;
+        document.getElementById("messagesList").appendChild(div);
+    })
+});
+
 connection.start().then(function () {
     document.getElementById("sendButton").disabled = false;
 }).catch(function (err) {
@@ -36,6 +44,13 @@ document.getElementById("sendButton").addEventListener("click", function (event)
     var user = document.getElementById("userInput").value;
     var message = document.getElementById("messageInput").value;
     connection.invoke("SendMessage", user, message).catch(function (err) {
+        return console.error(err.toString());
+    });
+    event.preventDefault();
+});
+
+document.getElementById("historyButton").addEventListener("click", function (event) {
+    connection.invoke("DisplayHistory").catch(function (err) {
         return console.error(err.toString());
     });
     event.preventDefault();
