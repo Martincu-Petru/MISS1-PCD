@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29424.173
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "light-chat-app", "light-chat-app.csproj", "{7FE9C002-5FD6-4503-A8FF-AEB582063EB9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LightChatApp", "LightChatApp.csproj", "{208C8F7B-152C-4C9A-B06D-D30FD4B5C9C1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{7FE9C002-5FD6-4503-A8FF-AEB582063EB9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7FE9C002-5FD6-4503-A8FF-AEB582063EB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7FE9C002-5FD6-4503-A8FF-AEB582063EB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7FE9C002-5FD6-4503-A8FF-AEB582063EB9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{208C8F7B-152C-4C9A-B06D-D30FD4B5C9C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{208C8F7B-152C-4C9A-B06D-D30FD4B5C9C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{208C8F7B-152C-4C9A-B06D-D30FD4B5C9C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{208C8F7B-152C-4C9A-B06D-D30FD4B5C9C1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {C1475A9B-4C73-4651-B306-CF5D9C8B94A0}
+		SolutionGuid = {54D9217A-952D-446D-AA6B-76C73EBD4945}
 	EndGlobalSection
 EndGlobal

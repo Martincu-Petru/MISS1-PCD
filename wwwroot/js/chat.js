@@ -7,10 +7,23 @@ document.getElementById("sendButton").disabled = true;
 
 connection.on("ReceiveMessage", function (user, message) {
     var msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-    var encodedMsg = user + " says " + msg;
-    var li = document.createElement("li");
-    li.textContent = encodedMsg;
-    document.getElementById("messagesList").appendChild(li);
+    if (user.length === 0) {
+        user = "Unknown";
+    }
+    if (msg.length === 0) {
+        msg = "Nothing";
+    }
+    var encodedUser = user + " - ";
+    var encodedMessage = msg;
+    var b = document.createElement("b");
+    var div = document.createElement("div");
+    b.textContent = encodedUser;
+    div.textContent = encodedMessage;
+    div.classList.add("alert");
+    div.classList.add("alert-success");
+    div.prepend(b);
+    document.getElementById("messagesList").appendChild(div);
+
 });
 
 connection.start().then(function () {
