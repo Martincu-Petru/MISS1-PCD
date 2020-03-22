@@ -10,22 +10,26 @@ namespace LightChatApp.Controllers
 {
     public static class MessageController
     {
-        public static void AddMessage(Message message)
+        public static async Task AddMessage(Message message)
         {
             using (var context = new ChatContext())
             {
                 message.Id = Guid.NewGuid().ToString();
                 context.Messages.Add(message);
-                context.SaveChanges();
+                await context.SaveChangesAsync();
             }
         }
 
-        public static DbSet<Message> GetMessages()
+        public static async Task<List<Message>> GetMessages()
         {
+            List<Message> messages = null;
             using (var context = new ChatContext())
             {
-                return context.Messages;
+                messages = await context.Messages.ToListAsync();
             }
+            messages.Reverse();
+
+            return messages;
         }
     }
 }
