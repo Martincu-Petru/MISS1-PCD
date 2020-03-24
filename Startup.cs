@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Linq;
 using System.Threading.Tasks;
 using LightChatApp.Hubs;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Connections;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -31,8 +33,9 @@ namespace LightChatApp
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-            services.AddSignalR();
-
+            services.AddSignalR(options => 
+                options.EnableDetailedErrors = true
+            );
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
@@ -53,7 +56,8 @@ namespace LightChatApp
             app.UseStaticFiles();
             app.UseSignalR(routes =>
             {
-                routes.MapHub<ChatHub>("/chatHub");
+                routes.MapHub<ChatHub>("/chatHub", options => 
+                    options.Transports = HttpTransportType.LongPolling | HttpTransportType.WebSockets);
             });
             app.UseMvc();
         }
