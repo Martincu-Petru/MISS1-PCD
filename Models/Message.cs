@@ -16,6 +16,9 @@ namespace LightChatApp.Models
 
         public string Text { get; set; }
 
+        [Column("message_date")]
+        public DateTime MessageDate { get; set; }
+
         public Message(string user, string text)
         {
             User = user;
