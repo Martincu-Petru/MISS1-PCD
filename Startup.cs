@@ -7,6 +7,7 @@ using LightChatApp.Hubs;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Connections;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -55,7 +56,8 @@ namespace LightChatApp
             app.UseStaticFiles();
             app.UseSignalR(routes =>
             {
-                routes.MapHub<ChatHub>("/chatHub");
+                routes.MapHub<ChatHub>("/chatHub", options => 
+                    options.Transports = HttpTransportType.LongPolling | HttpTransportType.WebSockets);
             });
             app.UseMvc();
         }
