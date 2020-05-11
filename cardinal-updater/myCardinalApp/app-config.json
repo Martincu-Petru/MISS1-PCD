@@ -20,9 +20,16 @@
                 "pageSrc": "home.html"
             },
             {
-                "name": "New Page",
-                "path": "/newPage",
-                "pageSrc": "new-page.html"
+                "name": "Add",
+                "path": "/newBook",
+                "pageSrc": "new-book.html",
+                "icon": "fa-plus-circle"
+            },
+            {   
+                "name": "Manage",
+                "path": "/manageBooks",
+                "pageSrc": "manage-books.html",
+                "icon": "fa-wrench"
             }
         ]
     }
