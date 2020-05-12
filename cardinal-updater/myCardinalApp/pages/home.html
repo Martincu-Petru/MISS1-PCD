@@ -1,22 +1,17 @@
 <psk-container controller-name="HomeController">
     <psk-for-each data-view-model="books">            
-        <psk-form-row layout="xs=[12,12] m=[6,6] l=[12,12] xl=[6,6]">
+        <psk-form-row layout="xs=[6,6,6,6] m=[3,3,3,3] l=[6,6,6,6] xl=[3,3,3,3]">
             <psk-text-input view-model="bookName"></psk-text-input>
             <psk-text-input view-model="author"></psk-text-input>
-        </psk-form-row>
-    
-        <psk-form-row layout="xs=[12,12] m=[6,6] l=[12,12] xl=[6,6]">
             <psk-text-input view-model="category"></psk-text-input>
-            <psk-text-input view-model="isbn"></psk-text-input>
-        </psk-form-row>
-
-        <psk-form-row layout="xs=[12,12] m=[6,6] l=[12,12] xl=[6,6]">
-            <psk-text-input view-model="pageNumber"></psk-text-input>
             <psk-text-input view-model="publishingHouse"></psk-text-input>
         </psk-form-row>
-
-        <psk-form-row layout="xs=[12] m=[6] l=[12] xl=[6]">
+    
+        <psk-form-row layout="xs=[6,6,6] m=[3,3,3] l=[6,6,6] xl=[3,3,3]">
+            <psk-text-input view-model="isbn"></psk-text-input>
+            <psk-text-input view-model="pageNumber"></psk-text-input>
             <psk-text-input view-model="fileSize"></psk-text-input>
+        </psk-form-row>
         </psk-form-row>
     </psk-for-each>
 </psk-container>
