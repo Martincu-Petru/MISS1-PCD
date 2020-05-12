@@ -9,40 +9,69 @@ const bodyParser = require('body-parser');
 app.use(cors())
 app.use(bodyParser.json()); 
 
-app.get("/api/book", (req, res, next) => {
-  fs.readdir("../node_server",  (err, files) => {
-    res.send(files);
-  });
+app.get("/api/books", (req, res, next) => {
+  var books = [];
+  fs.readdirSync("./books/").forEach(file => {
+    var contents = fs.readFileSync("./books/" + file, 'utf8');
+    books.push(JSON.parse(contents));
+    }
+  )
+  
+  res.setHeader('Content-Type', 'application/json');
+  res.send(JSON.stringify(books));
+  res.end();
 });
 
-app.get("/api/book/:id", (req, res, next) => {
-  res.send('NOT IMPLEMENTED: Book DETAIL: ' + req.params.id);
+app.get("/api/book/:isbn", (req, res, next) => {
+  fs.readFile("./books/" + req.params.isbn + ".json", 'utf8', function(error, contents) {
+    if (error) {
+      throw error;
+    } else {
+      res.setHeader('Content-Type', 'application/json');
+      res.send(JSON.parse(contents));
+      res.end();
+    }
+  });
 });
 
 app.post("/api/book", (req, res, next) => {
 
   var data = {
-    bookName: req.body.bookName != null ? req.body.bookName : "null",
-    author: req.body.author != null ? req.body.author : "null",
-    //isbn: req.body.isbn != null ? req.body.isbn : "null",
-    isbn: Math.floor(Math.random() * Math.floor(10000000000)),
-    category: req.body.category != null ? req.body.category : "null",
-    publishingHouse: req.body.publishingHouse != null ? req.body.publishingHouse : "null",
-    text: req.body.text != null ? req.body.text : "null"
+    bookName: req.body.bookName,
+    author: req.body.author,
+    isbn: req.body.isbn,
+    pageNumber: req.body.pageNumber,
+    category: req.body.category,
+    fileSize: req.body.fileSize,
+    publishingHouse: req.body.publishingHouse,
+    fileName: req.body.fileName,
+    fileExtension: req.body.fileExtension
   }
 
-  console.log(data);
+  fs.writeFile("./books/" + data.isbn + ".json", JSON.stringify(data), function (error) {
+    if (error) {
+      throw error;
+    } else {
+      console.log("Book " + req.body.bookName + " was saved!");
+      console.log(JSON.stringify(data));
 
-  fs.appendFile("./books/" + data.isbn + ".json", JSON.stringify(data), function (err) {
-    if (err) throw err;
-    console.log('Book was saved!');
+      res.setHeader('Content-Type', 'application/json');
+      res.send(JSON.stringify(data));
+      res.end();
+    }
   });
-
-  console.log(JSON.stringify(data));
 });
 
-app.delete("/api/book", (req, res, next) => {
-  res.send('NOT IMPLEMENTED: Book DELETE');
+app.delete("/api/book/:isbn", (req, res, next) => {
+  fs.unlink("./books/" + req.params.isbn + ".json", (error) => {
+    if (error) {
+      throw error;
+    } else {
+      res.setHeader('Content-Type', 'application/json');
+      res.send(JSON.stringify({isbn: req.params.isbn}));
+      res.end();
+    }
+  });
 });
 
 app.listen(3000, () => {
