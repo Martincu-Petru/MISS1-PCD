@@ -59,18 +59,17 @@ export default class NewBookController extends ContainerController {
             books: []
         }
 
-        xhttp.open("GET", "http://localhost:3000/api/book");
+        xhttp.open("GET", "http://localhost:3000/api/books");
         xhttp.setRequestHeader("Content-Type", "application/json");
 
         self = this;
         xhttp.onload = function() {
             if (this.readyState === 4 && this.status == 200) {
                 var arr = JSON.parse(this.responseText);
-                debugger;
                 arr.forEach(book => {
                     let bookToPush = bindObject;
                     bookToPush.author.value = book.author;
-                    bookToPush.bookName.value = book.name;
+                    bookToPush.bookName.value = book.bookName;
                     bookToPush.isbn.value = book.isbn;
                     bookToPush.pageNumber.value = book.pageNumber;
                     bookToPush.publishingHouse.value = book.publishingHouse;

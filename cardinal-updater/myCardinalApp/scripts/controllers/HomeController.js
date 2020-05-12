@@ -59,7 +59,7 @@ export default class HomeController extends ContainerController {
             books: []
         }
 
-        xhttp.open("GET", "http://localhost:3000/api/book");
+        xhttp.open("GET", "http://localhost:3000/api/books");
         xhttp.setRequestHeader("Content-Type", "application/json");
 
         self = this;
@@ -70,7 +70,7 @@ export default class HomeController extends ContainerController {
                 arr.forEach(book => {
                     let bookToPush = bindObject;
                     bookToPush.author.value = book.author;
-                    bookToPush.bookName.value = book.name;
+                    bookToPush.bookName.value = book.bookName;
                     bookToPush.isbn.value = book.isbn;
                     bookToPush.pageNumber.value = book.pageNumber;
                     bookToPush.publishingHouse.value = book.publishingHouse;
