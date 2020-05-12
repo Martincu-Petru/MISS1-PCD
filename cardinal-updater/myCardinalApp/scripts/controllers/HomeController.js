@@ -1,44 +1,88 @@
 import ContainerController from '../../cardinal/controllers/base-controllers/ContainerController.js';
 
 var model = {
-    books: [{
-        bookName: {
-            label: "Povestea Povestilor",
-            name: "bookName",
-            readonly: true,
-            value: "Test"
-        },
-        author: {
-            label: "Author",
-            name: "author",
-            readonly: true,
-            value: "Test"
-        },
-        isbn: {
-            label: "ISBN",
-            name: "isbn",
-            readonly: false,
-            value: "Test"
-        }
+    books: []
+}
+
+var bindObject = {
+    bookName: {
+        label: "Book Title",
+        name: "bookName",
+        readonly: true,
+        value: ''
+    },
+    author: {
+        label: "Author",
+        name: "author",
+        readonly: true,
+        value: ''
+    },
+    isbn: {
+        label: "ISBN",
+        name: "isbn",
+        readonly: true,
+        value: ''
+    },
+    pageNumber: {
+        label: "Number of pages",
+        name: "pageNumber",
+        readonly: true,
+        value: ''
+    },
+    category: {
+        label: "Category",
+        name: "category",
+        readonly: true,
+        value: ''
+    },
+    fileSize: {
+        label: "File Size",
+        name: "fileSize",
+        readonly: true,
+        value: ''
+    },
+    publishingHouse: {
+        label: "Publishing House",
+        name: "publishingHouse",
+        readonly: true,
+        value: ''
     }
-    ]
 }
 
 export default class HomeController extends ContainerController {
     constructor(element) {
         super(element);
-        this.model = this.setModel(JSON.parse(JSON.stringify(model)));
-        debugger;
+        
+        var xhttp = new XMLHttpRequest();
 
-        let customSubmit = () =>{
-			let name = this.model.getChainValue("books")[0].bookName.value;
-			let email = this.model.getChainValue("books")[0].author.value;
-			let age = this.model.getChainValue("books")[0].isbn.value;
-			alert(`Submitted:[${name},${email},${age}]`)
-        };
+        model = {
+            books: []
+        }
 
-        this.on("custom-submit", customSubmit, true);
+        xhttp.open("GET", "http://localhost:3000/api/book");
+        xhttp.setRequestHeader("Content-Type", "application/json");
+
+        self = this;
+        xhttp.onload = function() {
+            if (this.readyState === 4 && this.status == 200) {
+                var arr = JSON.parse(this.responseText);
+                debugger;
+                arr.forEach(book => {
+                    let bookToPush = bindObject;
+                    bookToPush.author.value = book.author;
+                    bookToPush.bookName.value = book.name;
+                    bookToPush.isbn.value = book.isbn;
+                    bookToPush.pageNumber.value = book.pageNumber;
+                    bookToPush.publishingHouse.value = book.publishingHouse;
+                    bookToPush.fileSize.value = book.fileSize;
+                    bookToPush.category.value = book.category;
+                    model.books.push(bookToPush);
+                });
+
+                self.model = self.setModel(JSON.parse(JSON.stringify(model)));
+            }
+        }
+
+        xhttp.send();
     }
-
-    
 }
