@@ -9,65 +9,25 @@
 
         });
 
-        controller.on("uploadFile", function() {
-            let fileModel = {
-                bookName: this.querySelector("#bookName").value,
-                author: this.querySelector("#author").value,
-                isbn: this.querySelector("#isbn").value,
-                category: this.querySelector("#fileCategory").value,
-                publishingHouse: this.querySelector("#publishingHouse").value,
-                fileName: this.querySelector("#fileName").value,
-                file: this.querySelector("input[type=file]").files[0],
-                pageNumber: this.querySelector("#fileSize").value
-            };
-
-            debugger;
-            var xhttp = new XMLHttpRequest();
-
-            xhttp.open("POST", "http://localhost:3000/api/book");
-            xhttp.setRequestHeader("Content-Type", "application/json");
-            xhttp.onreadystatechange = function() {
-                if (this.readyState === 4 && this.status == 200) {
-                    console.log(this.responseText);
-                }
-            }
-
-            xhttp.send(JSON.stringify(fileModel));
-        });
     </script>
+    <psk-form controller-name="NewBookController" style="margin-left: 25px" columns="2" layout="[12]">
+        <psk-text-input view-model="bookName"></psk-text-input>
+        <psk-text-input view-model="author"></psk-text-input>
+        <psk-text-input view-model="category"></psk-text-input>
+        <psk-text-input view-model="isbn"></psk-text-input>
+        <psk-text-input view-model="publishingHouse"></psk-text-input>
+        <psk-text-input view-model="pageNumber"></psk-text-input>
+        <psk-text-input view-model="fileName" id="fileName"></psk-text-input>
+        <psk-text-input view-model="fileExtension" id="fileExtension"></psk-text-input>
+        <psk-text-input view-model="fileSize" id="fileSize"></psk-text-input>
 
-    <psk-form style="margin-left: 25px" columns="2" layout="[12, 12]">
-            <psk-label  label="Book Name"/>
-            <psk-text-input view-model="bookNameVM" id="bookName"></psk-text-input>
+        <div style="display: inline-block;">
+            <psk-files-chooser class="btn btn-secondary" view-model="pskFileChooser" event-name="addFile">
+            </psk-files-chooser>
 
-            <psk-label  label="Author"/>
-            <psk-text-input id="author"></psk-text-input>
-
-            <psk-label  label="Category"/>
-            <psk-text-input id="fileCategory"></psk-text-input>
-
-            <psk-label  label="ISBN"/>
-            <psk-text-input id="isbn"></psk-text-input>
-
-            <psk-label  label="Publishing House"/>
-            <psk-text-input id="publishingHouse"></psk-text-input>
-
-            <psk-label  label="File Name"/>
-            <psk-text-input id="fileName"></psk-text-input>
-            
-            <psk-label  label="File Size"/>
-            <psk-text-input id="fileSize"></psk-text-input>
-
-            <psk-label  label="File Extension"/>
-            <psk-text-input id="fileExtension"></psk-text-input>
-
-            <div style="display: inline-block;">
-                <psk-files-chooser class="btn btn-secondary" id="pskFileChooser" event-name="addFile" label="Select file">
-                </psk-files-chooser>
-    
-                <psk-button label="Upload" class="btn btn-primary" event-name="uploadFile">
-                </psk-button>
-            </div>
+            <psk-button label="Upload" class="btn btn-primary" event-name="uploadFile">
+            </psk-button>
+        </div>
 
     </psk-form>
 </psk-container>
