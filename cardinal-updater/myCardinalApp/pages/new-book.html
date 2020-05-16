@@ -1,15 +1,4 @@
 <psk-container>
-    <script>
-        controller.on("addFile", function() {
-            let file = this.querySelector("input[type=file]").files[0];
-            debugger;
-            this.querySelector("#fileName").value = file.name;
-            this.querySelector("#fileSize").value = file.size;
-            this.querySelector("#fileExtension").value = file.name.split(".").pop();
-
-        });
-
-    </script>
     <psk-form controller-name="NewBookController" style="margin-left: 25px" columns="2" layout="[12]">
         <psk-text-input view-model="bookName"></psk-text-input>
         <psk-text-input view-model="author"></psk-text-input>

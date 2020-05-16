@@ -8,13 +8,11 @@ var bindObject = {
     bookName: {
         label: "Book Title",
         name: "bookName",
-        readonly: true,
         value: ''
     },
     author: {
         label: "Author",
         name: "author",
-        readonly: true,
         value: ''
     },
     isbn: {
@@ -26,69 +24,133 @@ var bindObject = {
     pageNumber: {
         label: "Number of pages",
         name: "pageNumber",
-        readonly: true,
         value: ''
     },
     category: {
         label: "Category",
         name: "category",
-        readonly: true,
         value: ''
     },
     fileSize: {
         label: "File Size",
         name: "fileSize",
-        readonly: true,
         value: ''
     },
     publishingHouse: {
         label: "Publishing House",
         name: "publishingHouse",
-        readonly: true,
         value: ''
     }
 }
 
+var booksToSet;
+
+var bindBooks = function(arr) {
+    console.log(arr);
+
+    model = {
+        books: []
+    }
+    
+    arr.forEach(book => {
+        let bookToPush = Object.assign({}, bindObject);
+        bookToPush.author.value = book.author;
+        bookToPush.bookName.value = book.bookName;
+        bookToPush.isbn.value = book.isbn;
+        bookToPush.pageNumber.value = book.pageNumber;
+        bookToPush.publishingHouse.value = book.publishingHouse;
+        bookToPush.fileSize.value = book.fileSize;
+        bookToPush.category.value = book.category;
+        model.books.push(bookToPush);
+    });
+
+    booksToSet = JSON.parse(JSON.stringify(model));
+}
+
+function getBooks(callback) {
+    var xhttp = new XMLHttpRequest();
+
+    xhttp.open("GET", "http://localhost:3000/api/books");
+    xhttp.setRequestHeader("Content-Type", "application/json");
+    xhttp.send();
+
+    xhttp.onreadystatechange = function() {
+        if (this.readyState === 4 && this.status == 200) {
+            var arr = JSON.parse(this.responseText);
+            callback.apply(this, [arr]);
+        }
+    }
+}
+
+function deleteBookRequest(isbn) {
+    var xhttp = new XMLHttpRequest();
+    var url = `http://localhost:3000/api/book/${isbn}`;
+
+    xhttp.open("DELETE", url);
+    xhttp.onreadystatechange = function() {
+        if (this.readyState === 4 && this.status == 200) {
+            console.log(this.responseText);
+        }
+    }
+    xhttp.send(null);
+}
+
+function updateBookRequest(isbn, bookToUpdate) {
+    var xhttp = new XMLHttpRequest();
+    var url = `http://localhost:3000/api/book/${isbn}`;
+    var jsonObj = JSON.stringify(bookToUpdate);
+
+    xhttp.open("PUT", url);
+    xhttp.setRequestHeader('Content-type','application/json');
+    xhttp.onreadystatechange = function() {
+        if (this.readyState === 4 && this.status == 200) {
+            console.log(this.responseText);
+        }
+    }
+    xhttp.send(jsonObj);
+}
+
+
 export default class NewBookController extends ContainerController {
     constructor(element) {
         super(element);
-        
-        var xhttp = new XMLHttpRequest();
 
-        model = {
-            books: []
-        }
+        getBooks(bindBooks);
 
-        xhttp.open("GET", "http://localhost:3000/api/books");
-        xhttp.setRequestHeader("Content-Type", "application/json");
+        this.model = this.setModel(booksToSet);
 
-        self = this;
-        xhttp.onload = function() {
-            if (this.readyState === 4 && this.status == 200) {
-                var arr = JSON.parse(this.responseText);
-                arr.forEach(book => {
-                    let bookToPush = bindObject;
-                    bookToPush.author.value = book.author;
-                    bookToPush.bookName.value = book.bookName;
-                    bookToPush.isbn.value = book.isbn;
-                    bookToPush.pageNumber.value = book.pageNumber;
-                    bookToPush.publishingHouse.value = book.publishingHouse;
-                    bookToPush.fileSize.value = book.fileSize;
-                    bookToPush.category.value = book.category;
-                    model.books.push(bookToPush);
-                });
+        let deleteBook = (event) => {
+            var isbn = event.data;
+            deleteBookRequest(isbn);
 
-                self.model = self.setModel(JSON.parse(JSON.stringify(model)));
+            var index = this.model.books.findIndex(x => x.isbn.value === isbn);
+            if (index !== -1) {
+                this.model.books.splice(index, 1);
             }
         }
 
-        xhttp.send();
+        let editBook = (event) => {
+            var isbn = event.data;
 
-        let deleteBook = (isbn) => {
-            console.log(this.model.getChainValue(isbn.data));
+            var index = this.model.books.findIndex(x => x.isbn.value === isbn);
+            if (index !== -1) {
+                this.model.books.splice(index, 1);
+            }
 
+            let bookToUpdate = {
+                bookName : this.model.books[index].bookName.value,
+                author : this.model.books[index].author.value,
+                isbn : this.model.books[index].isbn.value,
+                pageNumber : this.model.books[index].pageNumber.value,
+                category : this.model.books[index].category.value,
+                fileSize : this.model.books[index].fileSize.value,
+                publishingHouse : this.model.books[index].publishingHouse.value,
+            }
+
+            updateBookRequest(isbn, bookToUpdate);
         }
 
-        this.on("deleteBook", deleteBook, true);
+        this.on("deleteBook", deleteBook);
+        this.on("updateBook", editBook);
     }
 }

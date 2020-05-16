@@ -57,17 +57,25 @@ export default class NewBookController extends ContainerController {
         super(element);
         this.model = this.setModel(JSON.parse(JSON.stringify(model)));
 
+        let addFile = (event) => {
+            var file = event.data[0];
+
+            this.model.fileName.value = file.name;
+            this.model.fileExtension.value = file.name.split(".").pop();
+            this.model.fileSize.value = file.size;
+        }
+
         let uploadFile = () => {
             let fileModel = {
-                bookName : this.model.getChainValue("bookName.value"),
-                author : this.model.getChainValue("author.value"),
-                isbn : this.model.getChainValue("isbn.value"),
-                pageNumber : this.model.getChainValue("pageNumber.value"),
-                category : this.model.getChainValue("category.value"),
-                fileSize : this.model.getChainValue("fileSize.value"),
-                publishingHouse : this.model.getChainValue("publishingHouse.value"),
-                fileName : this.model.getChainValue("fileName.value"),
-                fileExtension : this.model.getChainValue("fileExtension.value")
+                bookName : this.model.bookName.value,
+                author : this.model.author.value,
+                isbn : this.model.isbn.value,
+                pageNumber : this.model.pageNumber.value,
+                category : this.model.category.value,
+                fileSize : this.model.fileSize.value,
+                publishingHouse : this.model.publishingHouse.value,
+                fileName : this.model.fileName.value,
+                fileExtension : this.model.fileExtension.value
             }
 
             var xhttp = new XMLHttpRequest();
@@ -84,5 +92,6 @@ export default class NewBookController extends ContainerController {
         }
 
         this.on("uploadFile", uploadFile, true);
+        this.on("addFile", addFile, true);
     }
 }
